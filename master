@@ -1,0 +1,96 @@
+## teakav's Daily Briefing Training Program ##
+## converted from Daily Briefiing Training 12-203 ##
+## version 0.1.0 ##
+## last updated 04/11/2021 ##
+
+import PySimpleGUI as sg
+sg.Theme('DarkBlue')
+
+layout = [[sg.Text("Welcome to teakav's Scenario-Based Training Progam"),
+           sg.Button("Begin")]]
+window = sg.Window("Daily Briefing Training 12-203", layout)
+
+while True:
+    event, values = window.read()
+
+    if event == sg.WIN_CLOSED:
+        break
+
+    if event == ("Begin"):
+        window.close()
+
+        scenario1 = True
+        while scenario1:
+
+            layout = [[sg.Text("You are responding to a traffic complaint after a citizen reports a big rig tanker truck partially blocking the roadway at Mainstreet & Motsenbocker. What are your initial thoughts?",
+                               size=(80, 2))],
+                      [sg.Text("Choose all that apply:")],
+                      [sg.Checkbox("Traffic Crash",
+                                   key='traffic_crash')],
+                      [sg.Checkbox("Motorist Assist",
+                                   key='motorist_assist')],
+                      [sg.Checkbox("Hazardous Material Spill",
+                                   key='hazmat_spill')],
+                      [sg.Checkbox("An annoying citizen report",
+                                   tooltip="Maybe, but do you really want go into it with that attitude?",
+                                   key='citizen_report')],
+                      [sg.Checkbox("Homicide",
+                                   tooltip="Not likely, but way to think outside the box.",
+                                   key='homicide')],
+                      [sg.Button("Continue")]]
+            window = sg.Window("Scenario", layout)
+            event, values = window.read()
+
+            if event == ("Continue"):
+                if values['citizen_report'] == True:
+                    [sg.Popup("Try again with a better attitude.",
+                              title="Failure",
+                              keep_on_top=True)]
+                    event, values = window.read()
+                    if event == ("OK"):
+                        scenario1 = True
+
+                if values['traffic_crash'] and values['motorist_assist'] and values['hazmat_spill'] == True:
+                    window.close()
+                    scenario1 = False
+                    scenario2 = True
+                    while scenario2:
+
+                        layout = [[sg.Text("Upon your arrival, you see the tanker truck on the shoulder and partially blocking the #2 lane. It appears that there is a large puddle of liquid under the tanker portion of the truck. Now what are your thoughts?",
+                                           size=(80, 3))],
+                                  [sg.Text("Choose one that applies:")],
+                                  [sg.Checkbox("Traffic Crash",
+                                               key='traffic_crash')],
+                                  [sg.Checkbox("Motorist Assist",
+                                               key='motorist_assist')],
+                                  [sg.Checkbox("Hazardous Material Spill",
+                                               key='hazmat_spill')],
+                                  [sg.Checkbox("An annoying citizen report",
+                                               tooltip="Hint: It's not this one.",
+                                               key='citizen_report')],
+                                  [sg.Checkbox("Homicide",
+                                               tooltip="Hint: It's not this one either.",
+                                               key='homicide')],
+                                  [sg.Button("Continue")]]
+                        window = sg.Window("Scenario", layout)
+                        event, values = window.read()
+
+                        if event == ("Continue"):
+                            if values['hazmat_spill'] == True:
+                                window.close()
+                                scenario2 = False
+                                scenario3 = True
+                                while scenario3:
+
+                                    layout = [[sg.Text("PLACEHOLDER")]]
+                                    window = sg.Window("Scenario", layout)
+                                    event, values = window.read()
+
+                            if values['traffic_crash'] or values['motorist_assist'] or values['citizen_report'] or values['homicide'] == True:
+                                [sg.Popup("Try again.",
+                                          title="Failure",
+                                          keep_on_top=True)]
+                                event, values = window.read()
+                                if event == ("OK"):
+                                    scenario2 = True
+window.close()
