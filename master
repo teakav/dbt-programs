@@ -1,14 +1,14 @@
-## teakav's Daily Briefing Training Program ##
-## converted from Daily Briefiing Training 12-203 ##
-## version 0.1.0 ##
-## last updated 04/11/2021 ##
+## teakav's Scenario-Based Training Program ##
+## converted from Daily Briefing Training 12-203 ##
 
+from datetime import date
 import PySimpleGUI as sg
-sg.Theme('DarkBlue')
+sg.theme('DarkBlue')
+today = date.today()
 
-layout = [[sg.Text("Welcome to teakav's Scenario-Based Training Progam"),
+layout = [[sg.Text("Welcome to teakav's Scenario-Based Training Program"),
            sg.Button("Begin")]]
-window = sg.Window("Daily Briefing Training 12-203", layout)
+window = sg.Window("Daily Briefing Training #12-203", layout)
 
 while True:
     event, values = window.read()
@@ -18,6 +18,7 @@ while True:
 
     if event == ("Begin"):
         window.close()
+        del window
 
         scenario1 = True
         while scenario1:
@@ -40,6 +41,8 @@ while True:
                       [sg.Button("Continue")]]
             window = sg.Window("Scenario", layout)
             event, values = window.read()
+            if event == sg.WIN_CLOSED:
+                break
 
             if event == ("Continue"):
                 if values['citizen_report'] == True:
@@ -74,17 +77,10 @@ while True:
                                   [sg.Button("Continue")]]
                         window = sg.Window("Scenario", layout)
                         event, values = window.read()
+                        if event == sg.WIN_CLOSED:
+                            break
 
                         if event == ("Continue"):
-                            if values['hazmat_spill'] == True:
-                                window.close()
-                                scenario2 = False
-                                scenario3 = True
-                                while scenario3:
-
-                                    layout = [[sg.Text("PLACEHOLDER")]]
-                                    window = sg.Window("Scenario", layout)
-                                    event, values = window.read()
 
                             if values['traffic_crash'] or values['motorist_assist'] or values['citizen_report'] or values['homicide'] == True:
                                 [sg.Popup("Try again.",
@@ -93,4 +89,63 @@ while True:
                                 event, values = window.read()
                                 if event == ("OK"):
                                     scenario2 = True
-window.close()
+
+                            if values['hazmat_spill'] == True:
+                                window.close()
+                                scenario2 = False
+                                scenario3 = True
+                                while scenario3:
+
+                                    layout = [[sg.Text("Because you are an expert in deduction, you have determined that this is likely a HAZMAT situation.",
+                                                       size=(80, 2))],
+                                              [sg.Text("You are required as a first responder/incident scene manager to respond competently and safely within your level of training, resources, and capabilities. Your goal is to save lives, limit casualties, protect the environment, limit damage to property, and restore the area to normal as soon as possible.",
+                                                       size=(80, 4))],
+                                              [sg.Text("Please discuss with your shift how they are going to perform the next steps if they should find themselves in a HAZMAT situation.",
+                                                       size=(80, 2))],
+                                              [sg.Button("Continue")]]
+                                    window = sg.Window("Scenario", layout)
+                                    event, values = window.read()
+                                    if event == sg.WIN_CLOSED:
+                                        break
+
+                                    if event == ("Continue"):
+                                        window.close()
+                                        scenario3 = False
+                                        scenario4 = True
+                                        while scenario4:
+
+                                            frame_layout = [[sg.Text("Safe approach")],
+                                                            [sg.Text(
+                                                                "Isolate, deny entry, and evaluate the scene")],
+                                                            [sg.Text(
+                                                                "Notifications and/or needed assistance")],
+                                                            [sg.Text(
+                                                                "Establish an Incident Command")],
+                                                            [sg.Text(
+                                                                "Identification and assessment of the hazardous material")],
+                                                            [sg.Text(
+                                                                "Action plan")],
+                                                            [sg.Text(
+                                                                "Ensure all personnel have appropriate PPE")],
+                                                            [sg.Text(
+                                                                "Containment, control, and stabilization of the incident")],
+                                                            [sg.Text(
+                                                                "Protective actions and consideration of health hazards")],
+                                                            [sg.Text(
+                                                                "Proper field decontamination")],
+                                                            [sg.Text(
+                                                                "Cleanup and proper disposal")],
+                                                            [sg.Text("Documentation and required reports")]]
+                                            layout = [[sg.Frame("Consider the following: ", frame_layout)],
+                                                      [sg.Button("Finish")]]
+                                            window = sg.Window(
+                                                "Scenario", layout)
+                                            event, values = window.read()
+                                            if event == sg.WIN_CLOSED:
+                                                break
+
+                                            if event == ("Finish"):
+                                                scenario4 = False
+                                                window.close()
+                                                del window
+                                                break
